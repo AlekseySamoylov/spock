@@ -74,7 +74,5 @@ class UserServiceTest extends Specification {
         1        | 1       || 2
         2        | 2       || 4
         3        | 3       || 6
-        4        | 5       || 9
-        44       | 4       || 454
     }
 }
