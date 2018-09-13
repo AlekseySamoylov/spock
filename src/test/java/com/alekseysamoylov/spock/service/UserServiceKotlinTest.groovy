@@ -1,12 +1,13 @@
 package com.alekseysamoylov.spock.service
 
+import com.alekseysamoylov.spock.entity.Role
 import com.alekseysamoylov.spock.entity.User
 import com.alekseysamoylov.spock.exception.AuthenticationException
 import com.alekseysamoylov.spock.repository.UserRepository
 import spock.lang.Specification
 import spock.lang.Unroll
 
-class UserServiceTest extends Specification {
+class UserServiceKotlinTest extends Specification {
 
     def "Should not throw AuthenticationException"() {
         setup:
@@ -14,7 +15,7 @@ class UserServiceTest extends Specification {
         def user = new User(id: 1, name: userName)
         def userRepositoryMock = Spy(UserRepository)
         userRepositoryMock.findOneByName(userName) >> user
-        def userService = new UserService(userRepositoryMock)
+        def userService = new UserServiceKotlin(userRepositoryMock)
 
         when:
         userService.processUser(userName)
@@ -28,7 +29,7 @@ class UserServiceTest extends Specification {
         def userName = 'John'
         def userRepositoryMock = Spy(UserRepository)
         userRepositoryMock.findOneByName(userName) >> null
-        def userService = new UserService(userRepositoryMock)
+        def userService = new UserServiceKotlin(userRepositoryMock)
 
         when:
         userService.processUser(userName)
@@ -39,7 +40,8 @@ class UserServiceTest extends Specification {
 
     def "Should summarize values simple"() {
         setup:
-        def userService = new UserService();
+        def userRepository = Spy(UserRepository)
+        def userService = new UserServiceKotlin(userRepository);
 
         when:
         def result = userService.sum(1, 1)
@@ -50,7 +52,8 @@ class UserServiceTest extends Specification {
 
     def "Should summarize values"() {
         setup:
-        def userService = new UserService();
+        def userRepository = Spy(UserRepository)
+        def userService = new UserServiceKotlin(userRepository);
 
         expect:
         result == userService.sum(firstArg, lastArg)
@@ -64,7 +67,8 @@ class UserServiceTest extends Specification {
     @Unroll("first: #firstArg plus last: #lastArg equals #result")
     def "Should summarize values with table"() {
         setup:
-        def userService = new UserService();
+        def userRepository = Spy(UserRepository)
+        def userService = new UserServiceKotlin(userRepository);
 
         expect:
         result == userService.sum(firstArg, lastArg)
@@ -76,34 +80,16 @@ class UserServiceTest extends Specification {
         3        | 3       || 6
     }
 
-//
-//    def "Should change user role"() {
-//        setup:
-//        def user = new User()
-//        def adminRole = Role.AdminRole
-//        def userService = new UserService()
-//
-//        expect:
-//        def userResult = userService.setAdminRole(user)
-//
-//        then:
-//        userResult.role == adminRole
-//    }
+    def "Should set admin role to user"() {
+        setup:
+        def user = new User()
+        def userRepository = Spy(UserRepository)
+        def userService = new UserServiceKotlin(userRepository)
 
+        when:
+        def resultUser = userService.setAdminRole(user)
 
+        then:
+        resultUser.role == Role.ADMIN
+    }
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
