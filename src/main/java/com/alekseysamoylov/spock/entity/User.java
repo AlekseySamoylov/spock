@@ -8,7 +8,9 @@ import lombok.experimental.Accessors;
 @Accessors(chain = true)
 public class User {
 
-    private Long id;
+  private Long id;
 
-    private String name;
+  private String name;
+
+  public Role role;
 }

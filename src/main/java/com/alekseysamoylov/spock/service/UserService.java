@@ -1,11 +1,10 @@
 package com.alekseysamoylov.spock.service;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
-
 import com.alekseysamoylov.spock.entity.User;
 import com.alekseysamoylov.spock.exception.AuthenticationException;
 import com.alekseysamoylov.spock.repository.UserRepository;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 @Component
 public class UserService {
@@ -25,7 +24,6 @@ public class UserService {
         }
         return true;
     }
-
 
     public int sum(int a, int b) {
         return a + b;
